@@ -5,9 +5,11 @@ import { Bell, MessageCircle, Droplet, X, Sparkles, Settings, Plus } from 'lucid
 import { Button } from '@/components/ui/button';
 import { Sidebar } from '@/components/Sidebar';
 import { ArtworkCard } from '@/components/ArtworkCard';
+import { FreeDropletDialog } from '@/components/FreeDropletDialog';
 
 export default function Dashboard() {
   const [showBanner, setShowBanner] = useState(true);
+  const [showFreeDropletDialog, setShowFreeDropletDialog] = useState(false);
 
   return (
     <div className="min-h-screen bg-paper-texture relative overflow-hidden">
@@ -64,6 +66,7 @@ export default function Dashboard() {
               variant="outline"
               size="sm"
               className="gap-2 rounded-full border-purple-200 text-purple-600 hover:bg-purple-50"
+              onClick={() => setShowFreeDropletDialog(true)}
             >
               <Droplet className="w-4 h-4" />
               <span>免费领水滴</span>
@@ -155,6 +158,12 @@ export default function Dashboard() {
           <MessageCircle className="w-6 h-6" />
         </button>
       </div>
+
+      {/* 免费领水滴弹窗 */}
+      <FreeDropletDialog
+        open={showFreeDropletDialog}
+        onClose={() => setShowFreeDropletDialog(false)}
+      />
     </div>
   );
 }

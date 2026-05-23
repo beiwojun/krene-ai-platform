@@ -24,6 +24,7 @@ export function ArtworkCard({ title, description, image, rotation }: ArtworkCard
             src={image}
             alt={title}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover"
           />
           {/* 悬停遮罩 */}
