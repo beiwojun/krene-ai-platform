@@ -1,15 +1,24 @@
 'use client';
 
 import { useState } from 'react';
-import { Bell, MessageCircle, Droplet, X, Sparkles, Settings, Plus } from 'lucide-react';
+import Link from 'next/link';
+import { Bell, MessageCircle, Droplet, X, Sparkles, Settings, Plus, Crown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sidebar } from '@/components/Sidebar';
 import { ArtworkCard } from '@/components/ArtworkCard';
 import { FreeDropletDialog } from '@/components/FreeDropletDialog';
+import { UserIdDialog } from '@/components/UserIdDialog';
+import { RechargeDialog } from '@/components/RechargeDialog';
+import { MessageCenterDialog } from '@/components/MessageCenterDialog';
+import { TemplateLibraryDialog } from '@/components/TemplateLibraryDialog';
 
 export default function Dashboard() {
   const [showBanner, setShowBanner] = useState(true);
   const [showFreeDropletDialog, setShowFreeDropletDialog] = useState(false);
+  const [showUserIdDialog, setShowUserIdDialog] = useState(false);
+  const [showRechargeDialog, setShowRechargeDialog] = useState(false);
+  const [showMessageCenterDialog, setShowMessageCenterDialog] = useState(false);
+  const [showTemplateLibraryDialog, setShowTemplateLibraryDialog] = useState(false);
 
   return (
     <div className="min-h-screen bg-paper-texture relative overflow-hidden">
@@ -41,6 +50,7 @@ export default function Dashboard() {
               <Button
                 size="sm"
                 className="bg-white text-purple-600 hover:bg-gray-100 text-sm font-medium"
+                onClick={() => setShowRechargeDialog(true)}
               >
                 立即升级
               </Button>
@@ -77,6 +87,7 @@ export default function Dashboard() {
               variant="outline"
               size="sm"
               className="gap-2 rounded-full border-gray-200 text-gray-600 hover:bg-gray-50 relative"
+              onClick={() => setShowMessageCenterDialog(true)}
             >
               <Bell className="w-4 h-4" />
               <span>消息中心</span>
@@ -85,14 +96,20 @@ export default function Dashboard() {
 
             {/* 用户信息 */}
             <div className="flex items-center gap-3 pl-3 border-l border-gray-200">
-              <div className="text-right">
+              <div 
+                className="text-right cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={() => setShowRechargeDialog(true)}
+              >
                 <div className="text-sm font-medium text-gray-900">FREE 免费</div>
-                <div className="text-xs text-gray-500 flex items-center gap-1">
+                <div className="text-xs text-gray-500 flex items-center gap-1 justify-end">
                   <Droplet className="w-3 h-3" />
                   <span>250</span>
                 </div>
               </div>
-              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-medium text-sm">
+              <div 
+                className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-medium text-sm cursor-pointer hover:scale-105 transition-transform"
+                onClick={() => setShowUserIdDialog(true)}
+              >
                 U
               </div>
             </div>
@@ -102,13 +119,13 @@ export default function Dashboard() {
         {/* 主内容 */}
         <div className="p-6">
           {/* 操作交互区 */}
-          <div className="bg-white rounded-2xl p-6 mb-8 shadow-sm">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 mb-8 shadow-sm">
             <div className="flex gap-4 mb-6">
               <div className="flex-1 relative">
                 <input
                   type="text"
                   placeholder="描述你想要创作的画面..."
-                  className="w-full h-14 pl-5 pr-32 rounded-xl border-2 border-purple-200 focus:border-purple-400 focus:outline-none text-gray-700 placeholder-gray-400 text-sm"
+                  className="w-full h-14 pl-5 pr-32 rounded-xl border-2 border-purple-200 focus:border-purple-400 focus:outline-none text-gray-700 placeholder-gray-400 text-sm bg-white/50"
                 />
                 <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-2">
                   <button className="w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition-colors">
@@ -128,6 +145,7 @@ export default function Dashboard() {
               <Button
                 variant="outline"
                 className="rounded-full border-gray-200 text-gray-600 hover:bg-gray-50"
+                onClick={() => setShowTemplateLibraryDialog(true)}
               >
                 提示词模板库
               </Button>
@@ -159,10 +177,30 @@ export default function Dashboard() {
         </button>
       </div>
 
-      {/* 免费领水滴弹窗 */}
+      {/* 弹窗 */}
       <FreeDropletDialog
         open={showFreeDropletDialog}
         onClose={() => setShowFreeDropletDialog(false)}
+      />
+      <UserIdDialog
+        open={showUserIdDialog}
+        onClose={() => setShowUserIdDialog(false)}
+        onFreeDroplet={() => {
+          setShowUserIdDialog(false);
+          setShowFreeDropletDialog(true);
+        }}
+      />
+      <RechargeDialog
+        open={showRechargeDialog}
+        onClose={() => setShowRechargeDialog(false)}
+      />
+      <MessageCenterDialog
+        open={showMessageCenterDialog}
+        onClose={() => setShowMessageCenterDialog(false)}
+      />
+      <TemplateLibraryDialog
+        open={showTemplateLibraryDialog}
+        onClose={() => setShowTemplateLibraryDialog(false)}
       />
     </div>
   );
